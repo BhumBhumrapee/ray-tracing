@@ -1,36 +1,54 @@
+
+
+from wsgiref.simple_server import WSGIRequestHandler
 import numpy as np
 from utils import *
-width = 256
-height = 256
+from ray import *
+from PIL import Image
+import cv2 as cv
 
-ppm_header = f'P3\n{width} {height}\n255\n'
+# settings
+
+aspect_ratio = 16 / 9
+image_width = 400
+image_height = int(image_width / aspect_ratio)
+
+viewport_height = 2
+viewport_width = aspect_ratio * viewport_height
+focal_length = 1
+
+origin = np.array([0,0,0])
+horizontal = np.array([viewport_width, 0, 0])
+vertical = np.array([0, viewport_height, 0])
+lower_left_corner = origin - horizontal/2 - vertical/2 - np.array([0, 0, focal_length])
+
+# main function
+
+ppm_header = f'P3\n{image_width} {image_height}\n255\n'
 
 output_file_name = "output_image.ppm"
 
 clear_image(output_file_name);
 output_file = open(output_file_name, 'a')
 output_file.write(ppm_header)
-total_pixels = width * height
+total_pixels = image_width * image_height
 
-for j in range(height - 1, -1, -1):
+for j in range(image_height - 1, -1, -1):
 
-    scaled_j = j * height
     print(f"Lines remaning: {j}")
-    
-    for i in range(width):
 
-        total = scaled_j + i
+    for i in range(image_width):
 
-        r = i / (width - 1)
-        g = j / (height - 1)
-        b = 0.25;
+        u = i / (image_width - 1)
+        v = j / (image_height - 1)
         
-        ir = int(255.999 * r)
-        ig = int(255.999 * g)
-        ib = int(255.999 * b)  
-
-        output_file.write(f"{ir} {ig} {ib} ")
+        r:ray = ray(origin, lower_left_corner + u * horizontal + v * vertical - origin)
+        color = ray_color(r)
+        write_color(output_file, color)
 
     output_file.write("\n")
 
 output_file.close()
+
+im = cv.imread(output_file_name)
+cv.imwrite("output_image_png.png", im)

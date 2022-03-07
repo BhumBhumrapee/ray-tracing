@@ -2,11 +2,11 @@
 
 from wsgiref.simple_server import WSGIRequestHandler
 import numpy as np
+from camera import camera
 from utils import *
 from ray import *
 from hittable import *
 from sphere import *
-from PIL import Image
 import cv2 as cv
 
 # settings
@@ -16,6 +16,7 @@ import cv2 as cv
 aspect_ratio = 16 / 9
 image_width = 400
 image_height = int(image_width / aspect_ratio)
+samples_per_pixel = 100
 
 # World
 
@@ -25,14 +26,7 @@ world.add(sphere([0, -100.5, -1], 100))
 
 # Camera
 
-viewport_height = 2
-viewport_width = aspect_ratio * viewport_height
-focal_length = 1
-
-origin = np.array([0,0,0])
-horizontal = np.array([viewport_width, 0, 0])
-vertical = np.array([0, viewport_height, 0])
-lower_left_corner = origin - horizontal/2 - vertical/2 - np.array([0, 0, focal_length])
+cam: camera = camera()
 
 # Rendering
 
@@ -51,13 +45,16 @@ for j in range(image_height - 1, -1, -1):
 
     for i in range(image_width):
 
-        u = i / (image_width - 1)
-        v = j / (image_height - 1)
+        pixel_color = np.array([0.0,0,0])
         
-        r:ray = ray(origin, lower_left_corner + u * horizontal + v * vertical - origin)
-        color = ray_color(r, world)
-        write_color(output_file, color)
+        for s in range(samples_per_pixel):
+            u = (i + np.random.rand()) / (image_width - 1)
+            v = (j + np.random.rand()) / (image_height - 1)
 
+            r = cam.get_ray(u, v)
+            pixel_color += ray_color(r, world)
+
+        write_color(output_file, pixel_color, samples_per_pixel)
     output_file.write("\n")
 
 output_file.close()

@@ -7,13 +7,29 @@ from ray import *
 pi = math.pi
 infinity = math.inf
 
+def clamp(x: float, mn: float, mx: float):
+    if (x < mn):
+        return mn
+    if (x > mx):
+        return mx
+    return x
+
 def clear_image(filename):
     f = open(filename, 'w')
     f.write("")
     f.close()
 
-def write_color(file, color):
-    file.write(f"{int(color[0] * 255.999)} {int(color[1] * 255.999)} {int(color[2] * 255.999)} ")
+def write_color(file, pixel_color, sample_per_pixel: int):
+    r = pixel_color[0]
+    g = pixel_color[1]
+    b = pixel_color[2]
+
+    scale = 1 / sample_per_pixel
+    r *= scale
+    g *= scale
+    b *= scale
+
+    file.write(f"{int(256 * clamp(r, 0, 0.999))} {int(256 * clamp(g, 0, 0.999))} {int(256 * clamp(b, 0, 0.999))} ")
 
 def unit_vector(vec):
     return vec / np.linalg.norm(vec)

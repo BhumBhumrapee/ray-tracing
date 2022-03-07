@@ -1,7 +1,11 @@
 import math
 import sqlite3
 import numpy as np
+from hittable import hit_record, hittable
 from ray import *
+
+pi = math.pi
+infinity = math.inf
 
 def clear_image(filename):
     f = open(filename, 'w')
@@ -14,11 +18,11 @@ def write_color(file, color):
 def unit_vector(vec):
     return vec / np.linalg.norm(vec)
 
-def ray_color(r: ray):
-    t = hit_sphere(np.array([0,0,-1]), 0.5, r)
-    if (t > 0):
-        n = unit_vector(r.at(t) - np.array([0, 0, -1]))
-        return 0.5 * (n + np.array([1,1,1]))
+def ray_color(r: ray, world: hittable):
+    rec: hit_record = hit_record()
+
+    if (world.hit(r, 0, infinity, rec)):
+        return 0.5 * (rec.normal + np.array([1,1,1]))
     unit_direction = unit_vector(r.dir)
     t = 0.5 * (unit_direction[1] + 1)
     return (1 - t) * np.array([1,1,1]) + t * np.array([0.5, 0.7, 1])
@@ -34,5 +38,6 @@ def hit_sphere(center, radius, r: ray):
     else:
         return (-half_b - math.sqrt(discriminant)) / a
 
-
+def degrees_to_radians(degrees):
+    return degrees * math.pi / 180
 

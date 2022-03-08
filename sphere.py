@@ -22,9 +22,9 @@ class sphere(hittable):
         
         sqrt_discriminant = math.sqrt(discriminant)
         root = (- half_b - sqrt_discriminant)/a
-        if (root < t_min or t_max < root):
+        if (root <= t_min or t_max < root):
             root = (- half_b + sqrt_discriminant) / a
-            if (root < t_min or t_max < root):
+            if (root <= t_min or t_max < root):
                 return False
         
         rec.t = root

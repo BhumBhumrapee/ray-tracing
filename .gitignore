@@ -8,3 +8,9 @@ output.ppm
 *.png
 *.png
 __pycache__/utils.cpython-38.pyc
+*.out
+*.h
+*.cpp
+*.xml
+*.iml
+*.png

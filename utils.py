@@ -1,11 +1,14 @@
 import math
-import sqlite3
 import numpy as np
 from hittable import hit_record, hittable
 from ray import *
 
+# short hand constants
+
 pi = math.pi
 infinity = math.inf
+
+# utilities function
 
 def clamp(x: float, mn: float, mx: float):
     if (x < mn):
@@ -34,26 +37,32 @@ def write_color(file, pixel_color, sample_per_pixel: int):
 def unit_vector(vec):
     return vec / np.linalg.norm(vec)
 
-def ray_color(r: ray, world: hittable):
+def ray_color(r: ray, world: hittable, depth):
     rec: hit_record = hit_record()
 
-    if (world.hit(r, 0, infinity, rec)):
-        return 0.5 * (rec.normal + np.array([1,1,1]))
+    if (depth <= 0):
+        return np.array([0.0, 0, 0])
+
+    if (world.hit(r, 0.001, infinity, rec)):
+        target = rec.p + rec.normal + random_vector_in_unit_sphere()
+        return 0.5 * ray_color(ray(rec.p, target - rec.p), world, depth - 1)
+
     unit_direction = unit_vector(r.dir)
     t = 0.5 * (unit_direction[1] + 1)
     return (1 - t) * np.array([1,1,1]) + t * np.array([0.5, 0.7, 1])
 
-def hit_sphere(center, radius, r: ray):
-    oc = r.origin - center;
-    a = np.dot(r.dir, r.dir)
-    half_b = np.dot(oc, r.dir)
-    c = np.dot(oc, oc) - radius ** 2
-    discriminant = half_b ** 2 - a*c;
-    if (discriminant < 0):
-        return -1
-    else:
-        return (-half_b - math.sqrt(discriminant)) / a
-
 def degrees_to_radians(degrees):
     return degrees * math.pi / 180
 
+def random_vector():
+    return np.array([np.random.rand(), np.random.rand(), np.random.rand()])
+
+def random_vector(mn, mx):
+    return np.array([np.random.uniform(mn, mx), np.random.uniform(mn, mx), np.random.uniform(mn, mx)])
+
+def random_vector_in_unit_sphere():
+    while True:
+        p = random_vector(-1, 1)
+        if np.dot(p, p) >= 1:
+            continue;
+        return p;

@@ -50,7 +50,6 @@ class hittable_list(hittable):
         temp_rec: hit_record = hit_record()
         hit_anything = False;
         closet_so_far = t_max;
-        save_rec = hit_record()
 
         for object in self.objects:
             if (object.hit(r, t_min, closet_so_far, temp_rec)):

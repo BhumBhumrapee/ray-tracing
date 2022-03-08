@@ -1,6 +1,4 @@
 
-
-from wsgiref.simple_server import WSGIRequestHandler
 import numpy as np
 from camera import camera
 from utils import *
@@ -16,7 +14,8 @@ import cv2 as cv
 aspect_ratio = 16 / 9
 image_width = 400
 image_height = int(image_width / aspect_ratio)
-samples_per_pixel = 100
+samples_per_pixel = 10
+max_depth = 2
 
 # World
 
@@ -52,7 +51,8 @@ for j in range(image_height - 1, -1, -1):
             v = (j + np.random.rand()) / (image_height - 1)
 
             r = cam.get_ray(u, v)
-            pixel_color += ray_color(r, world)
+            res_col = ray_color(r, world, max_depth)
+            pixel_color += res_col
 
         write_color(output_file, pixel_color, samples_per_pixel)
     output_file.write("\n")

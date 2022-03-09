@@ -9,6 +9,7 @@
 #include "material.h"
 #include "omp.h"
 #include <iostream>
+#include <time.h>
 
 color ray_color(const ray& r, const hittable& world, int depth) {
     
@@ -21,25 +22,36 @@ color ray_color(const ray& r, const hittable& world, int depth) {
     if (world.hit(r, 0.001, infinity, rec)) {
         ray scattered;
         color attenuation;
+
         if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
             return attenuation * ray_color(scattered, world, depth - 1);
-        return color(0,0,0);
+        return attenuation;
     }
 
     vec3 unit_direction = unit_vector(r.direction());
     double t = 0.5* (unit_direction.y() + 1.0);
-    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
+    return (1 - t) * color(1, 1, 1) + t * color(0.5, 0.7, 1);
 }
 
-hittable_list random_scene() {
+hittable_list scene1() {
+
     hittable_list world;
 
-    auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
+    shared_ptr<material> ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0,-1000,0), 1000, ground_material));
+
+    shared_ptr<material> material1 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
+    world.add(make_shared<sphere>(point3(0, 1, 0), 1.0, material1));
+
+    shared_ptr<material> material2 = make_shared<dielectric>(1.5);
+    world.add(make_shared<sphere>(point3(0, 3, 0), 1.0, material2));
+
+    shared_ptr<material> material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
+    world.add(make_shared<sphere>(point3(0, 5, 0), 1.0, material3));
 
     for (int a = -11; a < 11; a++) {
         for (int b = -11; b < 11; b++) {
-            auto choose_mat = random_double();
+            double choose_mat = random_double();
             point3 center(a + 0.9*random_double(), 0.2, b + 0.9*random_double());
 
             if ((center - point3(4, 0.2, 0)).length() > 0.9) {
@@ -47,32 +59,71 @@ hittable_list random_scene() {
 
                 if (choose_mat < 0.8) {
                     // diffuse
-                    auto albedo = color::random() * color::random();
+                    color albedo = color::random() * color::random();
                     sphere_material = make_shared<lambertian>(albedo);
                     world.add(make_shared<sphere>(center, 0.2, sphere_material));
                 } else if (choose_mat < 0.95) {
                     // metal
-                    auto albedo = color::random(0.5, 1);
-                    auto fuzz = random_double(0, 0.5);
+                    color albedo = color::random(0.5, 1);
+                    double fuzz = random_double(0, 0.5);
                     sphere_material = make_shared<metal>(albedo, fuzz);
                     world.add(make_shared<sphere>(center, 0.2, sphere_material));
                 } else {
                     // glass
-                    sphere_material = make_shared<dielectric>(1.5);
+                    sphere_material = make_shared<dielectric>(0.6);
                     world.add(make_shared<sphere>(center, 0.2, sphere_material));
                 }
             }
         }
     }
 
-    auto material1 = make_shared<dielectric>(1.5);
+    return world;
+
+}
+
+hittable_list random_scene() {
+    hittable_list world;
+
+    shared_ptr<lambertian> ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
+    world.add(make_shared<sphere>(point3(0,-1000,0), 1000, ground_material));
+
+    for (int a = -11; a < 11; a++) {
+        for (int b = -11; b < 11; b++) {
+            double choose_mat = random_double();
+            point3 center(a + 0.9*random_double(), 0.2, b + 0.9*random_double());
+
+            if ((center - point3(4, 0.2, 0)).length() > 0.9) {
+                shared_ptr<material> sphere_material;
+
+                if (choose_mat < 0.8) {
+                    // diffuse
+                    color albedo = color::random() * color::random();
+                    sphere_material = make_shared<lambertian>(albedo);
+                    world.add(make_shared<sphere>(center, 0.2, sphere_material));
+                } else if (choose_mat < 0.95) {
+                    // metal
+                    color albedo = color::random(0.5, 1);
+                    double fuzz = random_double(0, 0.5);
+                    sphere_material = make_shared<metal>(albedo, fuzz);
+                    world.add(make_shared<sphere>(center, 0.2, sphere_material));
+                } else {
+                    // glass
+                    sphere_material = make_shared<dielectric>(0.6);
+                    world.add(make_shared<sphere>(center, 0.2, sphere_material));
+                }
+            }
+        }
+    }
+
+    shared_ptr<material> material1 = make_shared<dielectric>(1.5);
     world.add(make_shared<sphere>(point3(0, 1, 0), 1.0, material1));
 
-    auto material2 = make_shared<lambertian>(color(0.4, 0.2, 0.1));
+    shared_ptr<material> material2 = make_shared<lambertian>(color(0.4, 0.2, 0.1));
     world.add(make_shared<sphere>(point3(-4, 1, 0), 1.0, material2));
 
-    auto material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
+    shared_ptr<material> material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
     world.add(make_shared<sphere>(point3(4, 1, 0), 1.0, material3));
+
 
     return world;
 }
@@ -84,25 +135,37 @@ int main() {
     const auto aspect_ratio = 3.0 / 2.0;
     const int image_width = 1200;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 20;
-    const int max_depth = 50;
+    const int samples_per_pixel = 32;
+    const int max_depth = 8;
 
     // World
 
-    hittable_list world = random_scene();
+    hittable_list world = scene1();
+
+    point3 lookfrom(0,1,10);
+    point3 lookat(0,3,0);
+    vec3 vup(0,0,1);
+    double dist_to_focus = 10;
+    double aperture = 0;
 
 
-    point3 lookfrom(13,2,3);
+    camera cam(lookfrom, lookat, vup, 50, aspect_ratio, aperture, dist_to_focus);
+
+    /*
+    point3 lookfrom(13,2,6);
     point3 lookat(0,0,0);
-    vec3 vup(0,1,0);
+    vec3 vup(0,1,0.5);
     double dist_to_focus = 10.0;
     double aperture = 0.1;
 
 
     camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
+    */
 
     // Render
 
+    time_t my_time = time(NULL);
+    std::cerr << "init time: " << ctime(&my_time) << "\n";
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
     for (int j = image_height-1; j >= 0; --j) {
@@ -114,7 +177,8 @@ int main() {
             color pixel_color;
             color partial_color;
 
-            #pragma omp parallel private(partial_color) shared(pixel_color)
+            // uses 16 threads
+            #pragma omp parallel private(partial_color) shared(pixel_color) // parallelization
             {
                 
                 pixel_color = color(0,0,0);
@@ -136,6 +200,6 @@ int main() {
             write_color(std::cout, pixel_color, samples_per_pixel);
         }
     }
-
+    std::cerr << "finish time: " << ctime(&my_time) << "\n";
     std::cerr << "\nDone.\n";
 }

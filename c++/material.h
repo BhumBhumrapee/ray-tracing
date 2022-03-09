@@ -87,4 +87,22 @@ class dielectric: public material {
         }
 };
 
+
+class light : public material {
+
+    public:
+
+        light(const color& a) : albedo(a) {}
+
+        virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override {
+            attenuation = albedo;
+            return false;
+        }
+
+    public:
+        color albedo;
+};
+
+
+
 #endif

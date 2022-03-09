@@ -39,5 +39,9 @@ inline double random_double(double min, double max) {
     return min + (max-min)*random_double();
 }
 
+template<typename Base, typename T>
+inline bool instanceof(const T *ptr) {
+   return dynamic_cast<const Base*>(ptr) != nullptr;
+}
 
 #endif

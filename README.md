@@ -54,7 +54,7 @@ There are, currently, a total of 4 materials which are the followings, along wit
 In reality, this type of material can be found on rough surfaces, be it visible to the eye or microscopically small bump. 
 To simulate this behavior we can have the ray scattered in random direction when it hit the surface.
 
-### 2: Metalic materical
+### 2: Metalic material
 
 This is everyday metallic surface. Unlike diffuse surface which have a rough surface, metallic surface is smooth and thus the ray
 doesn't get scattered in random direction but has a certain defined behavior to it. In fact this behaves like a mirror.

@@ -59,3 +59,12 @@ To simulate this behavior we can have the ray scattered in random direction when
 This is everyday metallic surface. Unlike diffuse surface which have a rough surface, metallic surface is smooth and thus the ray
 doesn't get scattered in random direction but has a certain defined behavior to it. In fact this behaves like a mirror.
 
+### 3: Dieletric material
+
+This is all the clear material such as glass, water, and so on. Unlike those two that the ray get reflect / scattered, 
+this time it also get refracted in addition to being reflected.
+
+### 4: Light material
+
+This is for surface that emits light. So basically, this is used to generate light in a scene.
+

@@ -15,8 +15,6 @@ class rectangle : public hittable {
                 end_point_3 = vec_1 + vec_2 + corner;
                 normal = cross(vec_1, vec_2);
                 d = dot(normal, cn);
-                std::cerr << "normal: " << normal << ", vec1: " << vec_1 << ", vec2: " << vec_2 << ", corner: " 
-                << corner << ", end1: " << end_point_1 << ", end2: " << end_point_2 << ", end3: " << end_point_3 << "\n";
             }
 
         virtual bool hit(

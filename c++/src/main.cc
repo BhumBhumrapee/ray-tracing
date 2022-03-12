@@ -114,6 +114,8 @@ int main() {
             write_color(std::cout, pixel_color, samples_per_pixel);
         }
     }
+
     std::cerr << "\nfinish time: " << ctime(&my_time) << "\n";
     std::cerr << "\nDone.\n";
+    
 }

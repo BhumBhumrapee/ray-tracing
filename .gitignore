@@ -3,7 +3,6 @@ output_image.txt
 output.ppm
 *.ppm
 *.pyc
-*.png
 __pycache__/utils.cpython-38.pyc
 *.out
 *.xml

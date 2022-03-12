@@ -26,7 +26,10 @@ Note: Add openmp flag to use openmp to speed up the rendering.
 
 ### Openmp settings
 
-If compiled with openmp flag do this before starting the main program else skip this section,
+If **compiled with openmp flag** do this before starting the main program else skip this section. 
+To speed up the rendering process, I've used a little bit of parallel programming to do sampling in parallel using openmp.
+Therefore, to speed up we have to set up the number of threads that openmp will be allowed to use to do work in parallel.
+To set up this, use the following command,
 
 ```bash
 export OMP_NUM_THREADS=NUM_THREADS
@@ -37,6 +40,8 @@ Where NUM_THREADS depends on the system and user's choice. For me, NUM_THREADS=1
 ```bash
 export OMP_NUM_THREADS=16
 ```
+
+Now we're ready to run the main program!
 
 ### Outputing image
 

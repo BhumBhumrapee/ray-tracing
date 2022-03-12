@@ -11,6 +11,7 @@
 #include <iostream>
 #include <time.h>
 #include "scenes.h"
+#include "rectangle.h"
 
 color ray_color(const ray& r, const hittable& world, int depth) {
     
@@ -24,8 +25,9 @@ color ray_color(const ray& r, const hittable& world, int depth) {
         ray scattered;
         color attenuation;
 
-        if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+        if (rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
             return attenuation * ray_color(scattered, world, depth - 1);
+        }
         return attenuation;
     }
 
@@ -43,12 +45,12 @@ int main() {
     const auto aspect_ratio = 3.0 / 2.0;
     const int image_width = 1200;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 256;
-    const int max_depth = 32;
+    const int samples_per_pixel = 10;
+    const int max_depth = 15;
 
     // World
 
-    hittable_list world = scene2();
+    hittable_list world = scene3();
 
     point3 lookfrom(0,1,10);
     point3 lookat(0,1,0);

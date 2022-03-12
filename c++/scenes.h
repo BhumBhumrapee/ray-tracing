@@ -3,7 +3,7 @@
 #include "hittable_list.h"
 #include "material.h"
 #include "sphere.h"
-
+#include "rectangle.h"
 
 hittable_list scene1() {
 
@@ -91,6 +91,25 @@ hittable_list scene2() {
 
 
     return world;
+}
+
+hittable_list scene3() {
+
+    hittable_list world;
+    shared_ptr<lambertian> ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
+    world.add(make_shared<sphere>(point3(0,-1000,0), 1000, ground_material));
+
+    shared_ptr<material> metal_material = make_shared<lambertian>(color(0.4, 0.6, 0.5));
+    shared_ptr<material> light_mat = make_shared<light>(color(4,4,4));
+    world.add(make_shared<rectangle>(point3(1,0,0), point3(1,2,0), point3(3,0,0), metal_material));
+
+    //world.add(make_shared<rectangle>(point3(-1,3,0), point3(-1,1,-1), point3(1,3,0), metal_material));
+
+    // shared_ptr<material> metal_2 = make_shared<metal>(color(0.7, 0.3, 0.6), 0.0);
+    // world.add(make_shared<sphere>(point3(0, 0.5, 0), 0.5, metal_2));
+
+    return world;
+
 }
 
 hittable_list random_scene() {

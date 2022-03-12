@@ -31,9 +31,13 @@ color ray_color(const ray& r, const hittable& world, int depth) {
         return attenuation;
     }
 
+    return color(0,0,0);
+
+    /*
     vec3 unit_direction = unit_vector(r.direction());
     double t = 0.5* (unit_direction.y() + 1.0);
     return (1 - t) * color(1, 1, 1) + t * color(0.5, 0.7, 1);
+    */
 }
 
 
@@ -42,34 +46,35 @@ int main() {
 
     // Settings
 
-    const auto aspect_ratio = 3.0 / 2.0;
-    const int image_width = 1200;
+    const double aspect_ratio = 2.0/2.3;
+    const int image_width = 800;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 10;
-    const int max_depth = 15;
+    const int samples_per_pixel = 512;
+    const int max_depth = 16;
 
     // World
 
-    hittable_list world = scene3();
+    hittable_list world = random_scene();
 
+    /*
     point3 lookfrom(0,1,10);
-    point3 lookat(0,1,0);
+    point3 lookat(0,0,0);
     vec3 vup(0,1,0);
     double dist_to_focus = 10;
     double aperture = 0;
 
     camera cam(lookfrom, lookat, vup, 50, aspect_ratio, aperture, dist_to_focus);
-
-    /*
-    point3 lookfrom(13,2,6);
-    point3 lookat(0,0,0);
-    vec3 vup(0,1,0.5);
-    double dist_to_focus = 10.0;
-    double aperture = 0.1;
-
-
-    camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
+    
     */
+    
+    point3 lookfrom(13,2,3);
+    point3 lookat(0,1,2);
+    vec3 vup(0,1,0);
+    double dist_to_focus = 10;
+    double aperture = 0;
+
+    camera cam(lookfrom, lookat, vup, 15, aspect_ratio, aperture, dist_to_focus);
+    
 
     // Render
 

@@ -118,8 +118,8 @@ hittable_list random_scene() {
     shared_ptr<lambertian> ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
     world.add(make_shared<sphere>(point3(0,-1000,0), 1000, ground_material));
 
-    for (int a = -11; a < 11; a++) {
-        for (int b = -11; b < 11; b++) {
+    for (int a = -5; a < 5; a++) {
+        for (int b = -5; b < 5; b++) {
             double choose_mat = random_double();
             point3 center(a + 0.9*random_double(), 0.2, b + 0.9*random_double());
 
@@ -155,6 +155,8 @@ hittable_list random_scene() {
     shared_ptr<material> material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
     world.add(make_shared<sphere>(point3(4, 1, 0), 1.0, material3));
 
+    shared_ptr<material> light_mat = make_shared<light>(color(100,100,100));
+    world.add(make_shared<rectangle>(point3(-1,1.5,3), point3(-0.5,2,2.5), point3(-1.5,1.5,2.5), light_mat));
 
     return world;
 }

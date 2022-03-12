@@ -45,7 +45,7 @@ Now we're ready to run the main program!
 
 ### Outputing image
 
-After everything, we can now run the program and redirect the input to the file we desire to store 
+Now we are ready to run the program. Run the main file and redirect the input to the file we desire to store 
 the output in. To do this, use the following command,
 
 ```bash

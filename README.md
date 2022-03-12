@@ -24,7 +24,9 @@ Note: Add openmp flag to use openmp to speed up the rendering.
 
 ## Rendering
 
-If compiled with openmp flag do this before starting the main program,
+### Openmp settings
+
+If compiled with openmp flag do this before starting the main program else skip this section,
 
 ```bash
 export OMP_NUM_THREADS=NUM_THREADS
@@ -36,7 +38,9 @@ Where NUM_THREADS depends on the system and user's choice. For me, NUM_THREADS=1
 export OMP_NUM_THREADS=16
 ```
 
-After setting up the number of threads, we can run the program and redirect the input to the file we desire to store 
+### Outputing image
+
+After everything, we can now run the program and redirect the input to the file we desire to store 
 the output in. To do this, use the following command,
 
 ```bash

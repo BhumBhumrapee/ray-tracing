@@ -30,7 +30,7 @@ If compiled with openmp flag do this before starting the main program,
 export OMP_NUM_THREADS=NUM_THREADS
 ```
 
-Where NUM_THREADS depends on the system. For me, OMP_NUM_THREADS=NUM_16 yields the best performance for me. So,
+Where NUM_THREADS depends on the system and user's choice. For me, NUM_THREADS=16 yields the best performance for me. So,
 
 ```bash
 export OMP_NUM_THREADS=16

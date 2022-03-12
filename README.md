@@ -26,7 +26,7 @@ Note: Add openmp flag to use openmp to speed up the rendering.
 
 ### Openmp settings
 
-If **compiled with openmp flag** do this before starting the main program else skip this section. 
+If **compiled with openmp flag** do this before starting the main program, else skip this section. 
 To speed up the rendering process, I've used a little bit of parallel programming to do sampling in parallel using openmp.
 Therefore, to speed up we have to set up the number of threads that openmp will be allowed to use to do work in parallel.
 To set up this, use the following command,

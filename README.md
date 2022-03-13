@@ -9,7 +9,8 @@ A basic implementation of a ray-tracer in c++ (initially in python).
 ├── c++
 │   └── images
 │   └── src
-├── python                   
+├── python      
+├── latex
 ├── .gitignore
 └── README.md
 ```

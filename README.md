@@ -184,7 +184,35 @@ For me, I personally feel that this much more challenging to implement than the 
 out the math behind it too. 
 
 Rectangle are very simliar in nature to that of a plane but with restricted boundary. Therefore, I decided that it will be easy to to represent the 
-rectangle as a whole plane as it will be easy to store then we can do boundary checking later. Here's the latex I wrote to describe the idea,
+rectangle as a whole plane as it will be easy to store then we can do boundary checking later. 
+
+First off, I've decided to represent the plane by three points called, corner, end_point_1, and end_point_2. From this we can deduce two vectors which will be
+on the plane by,
+
+```c++
+vec3 vec_1 = end_point_1 - corner;
+vec3 vec_2 = end_point_2 - corner;
+```
+
+From this we can deduce the last point by vector addition,
+
+```c++
+end_point_3 = vec_1 + vec_2 + corner;
+```
+
+To get the normal vector of a plane, we can cross the two vectors
+
+```c++
+normal = cross(vec_1, vec_2); // normal vector of a plane
+```
+
+and d is just,
+
+```c++
+d = dot(normal, cn); // the constant d of equation of plane, ax + by + cz = d
+```
+
+Here's the latex I wrote to describe the idea,
 
 <p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/eq_of_plane.PNG"> </p>
 

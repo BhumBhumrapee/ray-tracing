@@ -46,7 +46,7 @@ int main() {
     const double aspect_ratio = 3.0/ 2;
     const int image_width = 1200;
     const int image_height = int(image_width / aspect_ratio);
-    const int samples_per_pixel = 8;
+    const int samples_per_pixel = 512;
     const int max_depth = 50;
 
 

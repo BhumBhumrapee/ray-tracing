@@ -8,21 +8,20 @@
 class camera {
     public:
         camera(point3 lookfrom, point3 lookat, vec3 vup, double vertical_field_of_view, double aspect_ratio, double aperture, double focus_dist) {
-            double theta = degrees_to_radians(vertical_field_of_view);
-            double h = tan(theta / 2);
-            double viewport_height = 2.0 * h;
+            double theta = degrees_to_radians(vertical_field_of_view); // how tall the picture is
+            double h = tan(theta / 2); // ratio to distance
+            double viewport_height = 2.0 * h; // for virtual viewport
             double viewport_width = aspect_ratio * viewport_height;
-            double focal_length = 1.0;
 
-            w = unit_vector(lookfrom - lookat);
-            u = unit_vector(cross(vup, w));
+            w = unit_vector(lookfrom - lookat); // get vector that points to the point we want to look at
+            u = unit_vector(cross(vup, w)); 
             v = cross(w, u);
 
             origin = lookfrom;
             horizontal = focus_dist * viewport_width * u;
             vertical = focus_dist * viewport_height * v;
             lower_left_corner = origin - horizontal/2 - vertical/2 - focus_dist * w;
-            lens_radius = aperture / 2;
+            lens_radius = aperture / 2; // for defocus blur effect, if zero then everything is always in focus
         }
 
         ray get_ray(double s, double t) const {

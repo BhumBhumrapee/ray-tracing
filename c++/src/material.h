@@ -39,7 +39,7 @@ class metal : public material {
 
         virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override {
             vec3 reflected = reflect(unit_vector(r_in.direction()), rec.normal);
-            scattered = ray(rec.p, reflected + fuzz * random_vector_in_unit_sphere());
+            scattered = ray(rec.p, reflected + fuzz * random_vector_in_unit_sphere()); // add fuzziness in the reflected ray, if fuzz is zero, then the light get reflected without randomness
             attenuation = albedo;
             return (dot(scattered.direction(), rec.normal) > 0);
         }
@@ -96,7 +96,7 @@ class light : public material {
         light(const color& a) : albedo(a) {}
 
         virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override {
-            attenuation = albedo;
+            attenuation = albedo; // return white color
             return false;
         }
 

@@ -22,20 +22,24 @@ class sphere : public hittable {
 
 bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) const {
     
-    vec3 oc = r.origin() - center;
+    vec3 center_to_origin = r.origin() - center;
     double a = r.direction().length_squared();
-    double half_b = dot(oc, r.direction());
-    double c = oc.length_squared() - radius * radius;
-
+    double half_b = dot(center_to_origin, r.direction());
+    double c = center_to_origin.length_squared() - radius * radius;
     double discriminant = half_b * half_b - a * c;
-    if (discriminant < 0) return false;
-    double sqrt_discriminant = sqrt(discriminant);
 
-    auto root = (-half_b - sqrt_discriminant) / a;
-    if (root < t_min || t_max < root) {
+    if (discriminant < 0) { // if there is no solution, we return immediately
+        return false;
+    }
+
+    double sqrt_discriminant = sqrt(discriminant);
+    double root = (-half_b - sqrt_discriminant) / a;
+
+    if (root < t_min || t_max < root) { // if the first root lies outside the range, we check for the other one
         root = (-half_b + sqrt_discriminant) / a;
-        if (root < t_min || t_max < root)
-            return false;
+        if (root < t_min || t_max < root) {
+            return false; // if it is still outisde, just return
+        }
     }
 
     rec.t = root;

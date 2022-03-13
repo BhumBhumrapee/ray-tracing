@@ -33,7 +33,7 @@ color ray_color(const ray& r, const hittable& world, int depth) {
 
     vec3 unit_direction = unit_vector(r.direction());
     double t = 0.5* (unit_direction.y() + 1.0);
-    return (1 - t) * color(1, 1, 1) + t * color(0.5, 0.7, 1);
+    return (1 - t) * color(1, 1, 1) + t * color(0.5, 0.7, 1); // world color, to achieve scene with no light, use color(0,0,0) instead and add custom light source.
 
 }
 
@@ -46,7 +46,7 @@ int main() {
     const double aspect_ratio = 3.0/ 2;
     const int image_width = 1200;
     const int image_height = int(image_width / aspect_ratio);
-    const int samples_per_pixel = 512;
+    const int samples_per_pixel = 8;
     const int max_depth = 50;
 
 
@@ -55,6 +55,9 @@ int main() {
     hittable_list world = random_scene();
 
     /*
+
+    Another camera setting
+
     point3 lookfrom(0,1,10);
     point3 lookat(0,0,0);
     vec3 vup(0,1,0);
@@ -89,7 +92,7 @@ int main() {
             color pixel_color;
             color partial_color;
 
-            // uses 16 threads
+            // uses 8 - 16 threads, on my machine
             #pragma omp parallel private(partial_color) shared(pixel_color) // parallelization
             {
                 
@@ -97,7 +100,7 @@ int main() {
                 partial_color = color(0,0,0);
 
                 #pragma omp for 
-                for (int s = 0; s < samples_per_pixel; ++s) {
+                for (int s = 0; s < samples_per_pixel; ++s) { // anti-aliasing, generate more smooth, less sharp image.
                     auto u = (i + random_double()) / (image_width-1);
                     auto v = (j + random_double()) / (image_height-1);
                     ray r = cam.get_ray(u, v);

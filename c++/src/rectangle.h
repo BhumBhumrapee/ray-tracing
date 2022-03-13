@@ -13,8 +13,8 @@ class rectangle : public hittable {
                 vec3 vec_1 = end1 - cn;
                 vec3 vec_2 = end2 - cn;
                 end_point_3 = vec_1 + vec_2 + corner;
-                normal = cross(vec_1, vec_2);
-                d = dot(normal, cn);
+                normal = cross(vec_1, vec_2); // normal vector of a plane
+                d = dot(normal, cn); // the constant d of equation of plane, ax + by + cz = d
             }
 
         virtual bool hit(
@@ -37,12 +37,12 @@ bool rectangle::hit(const ray& r, double t_min, double t_max, hit_record& rec) c
     double error_torelance = 0.0001;
     vec3 ray_direction = r.direction();
     bool has_solution = abs(dot(normal, ray_direction)) > error_torelance;
-    if (!has_solution) {
+    if (!has_solution) { // if no sol, return immediately
         return false;
     }
     double t = (d - dot(normal, r.origin())) / dot(normal, ray_direction);
 
-    if (t < t_min || t > t_max) {
+    if (t < t_min || t > t_max) { // or if the sol is greater than the boundary we also return
         return false;
     }
 
@@ -61,7 +61,7 @@ bool rectangle::hit(const ray& r, double t_min, double t_max, hit_record& rec) c
     bool con3 = dot(vec_3, corner_to_inter_2) > 0;
     bool con4 = dot(vec_4, corner_to_inter_2) > 0;
 
-    if (con1 && con2 && con3 && con4) {
+    if (con1 && con2 && con3 && con4) { // check if the point lies within the rectangle
         rec.t = t;
         rec.p = r.at(t);
         rec.set_face_normal(r, normal);

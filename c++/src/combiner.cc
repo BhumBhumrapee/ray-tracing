@@ -11,6 +11,10 @@ using namespace std;
 int main(int argc, char * argv[])
 {
 
+    /* 
+    Custom combiner, to combine samples
+    */
+
     vector<vector<int>> samples;
 
     std::cerr << "num args: " << argc << "\n";

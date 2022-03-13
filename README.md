@@ -259,7 +259,7 @@ Here's the setup,
 Take the intersection point minus the corner of the rectangle to get a vector, call this corner_to_inter_1. Then do the same for the opposite corner and call it
 corner_to_inter_2. Now we have two vectors that points from each corner to the intersection point.
 
-For each corner that the corner_to_inter vector points out from, find the neighbhor point, take those point and minus it with the corner points. So,
+For each corner that the corner_to_inter vector points out from, find the neighbhoring points, take those point and minus it with the corner points. So,
 in total we will have 6 total vectors,
 
 ```c++
@@ -287,16 +287,16 @@ In the following picture the dot product between u and its' neighbhor vector w w
 
 <p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/illus/2x/vectors_out_2.png"> </p>
 
-The dot product between v1 and u1 will be less than zero while others will all be positive.
+The dot product between v1 and u1 will be less than zero while others will all be positive or zero.
 
-Therefore if the point lies inside the rectangle, the dot product of all four vectors to its correspoding conrner to intersection vector must be positive. 
+Therefore if the point lies inside the rectangle, the dot product of all four vectors to its correspoding conrner to intersection vector must be positive or zero. 
 In code,
 
 ```c++
-bool con1 = dot(vec_1, corner_to_inter_1) > 0;
-bool con2 = dot(vec_2, corner_to_inter_1) > 0;
-bool con3 = dot(vec_3, corner_to_inter_2) > 0;
-bool con4 = dot(vec_4, corner_to_inter_2) > 0;
+bool con1 = dot(vec_1, corner_to_inter_1) >= 0;
+bool con2 = dot(vec_2, corner_to_inter_1) >= 0;
+bool con3 = dot(vec_3, corner_to_inter_2) >= 0;
+bool con4 = dot(vec_4, corner_to_inter_2) >= 0;
 if (con1 && con2 && con3 && con4) { // check if the point lies within the rectangle
     rec.t = t;
     rec.p = r.at(t);

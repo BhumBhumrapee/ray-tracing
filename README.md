@@ -173,12 +173,13 @@ To finish this I've increase the intensity of the light but also open the back s
 ![open_back_room_with_light_256_samples](https://user-images.githubusercontent.com/83196403/158046568-9c39fdad-b9af-4723-a28c-1a09fc4bed7a.png)
 <p align="center"> <em> 256 samples per pixel </em> </p>
 
-
 ![open_back_room_with_light_512_samples](https://user-images.githubusercontent.com/83196403/158046580-49a716be-995f-495d-9bb7-5d3ddfe6bf0c.png)
-<p align="center"> <em> 512 samples per pixels </em> </p>
+<p align="center"> <em> 256 * 2 samples per pixels </em> </p>
 
 ![open_back_room_with_light_768_samples](https://user-images.githubusercontent.com/83196403/158046585-3955f0a0-ebac-4910-b6e1-23de276167e4.png)
-<p align="center"> <em> 768 samples per pixels </em> </p>
+<p align="center"> <em> 256 * 3 samples per pixels </em> </p>
+
+Note that I rendered 256 samples per pixel thrice and the combined it using a custom ppm combiner that I wrote (just add all the number and average them). 
 
 As you can see, the image is brighter and have less and less black spots as we add in more samples.
 

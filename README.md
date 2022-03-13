@@ -313,7 +313,31 @@ I used the rectangle for light sources as it looks cooler than a sphere. Now wit
 <p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/c%2B%2B/images/open_light_rec_512_samples.png"> </p>
 <p align="center"> <em> 512 samples per pixel, open space</em> </p>
 
-This concludes my project.
+### OpemMp
+
+Lastly, I've included OpenMp into the code so that it runs faster. I parallelize the sampling loop so that the program can do sampling in parallel to speed up rendering. 
+
+```c++
+#pragma omp parallel private(partial_color) shared(pixel_color) // parallelization
+{
+    
+    pixel_color = color(0,0,0);
+    partial_color = color(0,0,0);
+    #pragma omp for 
+    
+    for (int s = 0; s < samples_per_pixel; ++s) { // anti-aliasing, generate more smooth, less sharp image.
+        auto u = (i + random_double()) / (image_width-1);
+        auto v = (j + random_double()) / (image_height-1);
+        ray r = cam.get_ray(u, v);
+        partial_color += ray_color(r, world, max_depth);
+    }   
+    
+    #pragma omp critical 
+    pixel_color += partial_color;
+}
+```
+
+After some testing, I found that 8 - 16 threads works best for me for around 128 and more samples per pixel. This concludes my project
 
 ## Citation
 

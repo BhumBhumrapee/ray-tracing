@@ -101,18 +101,21 @@ than c++ and all of the utility functions are already there in the library such 
 to make the image look nicer, such as anti-aliasing, the code was running just fine at a good speed. However, after I've added anti-aliasing, 
 the rendering process takes much longer time than expected, around 1 minute for a simple image with 10 samples. Realising that this would we 
 bad when we moved to thousands of samples, I've decided to move to c++ as the author of the book recommended. Another reason that I've chosen c++ is
-the fact that I can gain access to multiprocessing libraries such as OpenMP very easily. This will be used to speed up the rendering process even more.
+the fact that I can gain access to multiprocessing libraries such as OpenMP very easily. This will be used to speed up the rendering process even more. I've splitted 
+my learning into two part, which is the part where i follow the book, and the part where I go out and try things on my own. Let's start with the theory from the book.
 
 ### Theory / Straight from the book
 
 As stated, most of the idea behind the implementation is followed directly from the book, this includes, camera, basic materials, hittable class abstraction, vector functions,
-ray casting, sphere shape, and colour. Some have little tweaks in between but it is very minor.
+ray casting, sphere shape, and colour. Some have little tweaks in between but it is very minor. I've learned a lot through reading the whole book although I have already learned most of the math and physics concepts discussed inside from physics, linear algebra and calculus class, the book is the one that connects and bring it all to life. 
 
 The final output from the book is the following picture featuring all types of material,
 
 ![all_mat_types_512_samples](https://user-images.githubusercontent.com/83196403/158046149-41a3b59d-7f5a-45ba-83ff-221cc649c10a.png)
 
 ### Extension to light material and rectangular shape
+
+Although the project was very enjoyable, this is where the fun part begins. Where I go try and struggle to implement things not discussed in the book by my own. Let's start with the light material, where I will walkthough my thinking process.
 
 #### Light material
 
@@ -243,8 +246,7 @@ However, I feel that this is clunky and that there are a alot of case to cover. 
 the xy plane will result in a plane with zero dimension (a line), and therefore we cannot check for height. To work around this we will have to check first if 
 the plane is aligning to which plane and then project onto the other. I feel like that this is bug prone so I drop the idea.
 
-After a lot of thinking I feel that this has something to do with dot product but im not sure. At the time I gave up and go to sleep, with some miracle I woke up, and
-the first thing came to my mind is the answer to the question. We can indeed use dot product to check if a point lies inside the boundary.
+After a lot of thinking I sense that this has something to do with dot product and the angles between vector the corner vectors and the vector to the intersection point, however, the idea is not solid / clear to me at the time yet. I drew out pictures and then I suddenly realise how to do this (although I didn't prove any of this, so there might be some case where I missed and I could be wrong). 
 
 Here's the setup,
 
@@ -305,8 +307,12 @@ Including this in the scene too we get,
 <p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/c%2B%2B/images/open_light_rec_128_samples.png"> </p>
 <p align="center"> <em> 128 samples per pixel, open space</em> </p>
 
+I used the rectangle for light sources as it looks cooler than a sphere. Now with more samplings,
+
 <p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/c%2B%2B/images/open_light_rec_512_samples.png"> </p>
 <p align="center"> <em> 512 samples per pixel, open space</em> </p>
+
+This concludes my project.
 
 ## Citation
 

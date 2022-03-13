@@ -184,10 +184,30 @@ For me, I personally feel that this much more challenging to implement than the 
 out the math behind it too. 
 
 Rectangle are very simliar in nature to that of a plane but with restricted boundary. Therefore, I decided that it will be easy to to represent the 
-rectangle as a whole plane as it will be easy to store then we can do boundary checking later. 
+rectangle as a whole plane as it will be easy to store then we can do boundary checking later. Here's the latex I wrote to describe the idea,
 
-<img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/eq_of_plane.PNG" align="center">
+<p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/eq_of_plane.PNG"> </p>
 
+Now that we have the t we can easily solve for the point of intersection very easily,
+
+```c++
+point3 intersection = r.at(t);
+```
+
+Note that there might not be a solution, e.g the ray is parallel to the plane. This happens when the demoniminator is zero which means that
+the ray is perpendicular to the normal of the plane which means it is parallel to the plane itself, so we can check that first to avoid dividing by
+zero error.
+
+```c++
+double error_torelance = 0.0001;
+vec3 ray_direction = r.direction();
+bool has_solution = abs(dot(normal, ray_direction)) > error_torelance;
+if (!has_solution) { // if no sol, return immediately
+    return false;
+}       
+```
+
+Now that we have the intersection, here comes the hard part. How do we check if the point lies within the rectangle.
 
 ## NotesOn Reference Material
 

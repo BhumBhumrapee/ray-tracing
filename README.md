@@ -318,6 +318,7 @@ This concludes my project.
 
 [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 
+```
 Title (series): “Ray Tracing in One Weekend Series”
 Title (book): “Ray Tracing in One Weekend”
 Author: Peter Shirley
@@ -326,3 +327,4 @@ Version/Edition: v3.2.3
 Date: 2020-12-07
 URL (series): https://raytracing.github.io/
 URL (book): https://raytracing.github.io/books/RayTracingInOneWeekend.html
+```

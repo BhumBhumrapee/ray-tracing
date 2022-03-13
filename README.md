@@ -129,7 +129,7 @@ virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation,
 ```
 For me, I interpret attenuation in this place to be the intensity of the light, so the value could be greater than one. This makes sense because,
 the ray_color function is recursive which means that as the function returns the value of the light get decrease every step because it is multiplied to some
-the factor which is the colour.
+the factor which is the colour. Therefore, the higher the value the further the light travel (stay alive) and the brighter it is.
 
 ```c++
 if (rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
@@ -237,13 +237,43 @@ if (!has_solution) { // if no sol, return immediately
 }       
 ```
 
-Now that we have the intersection, here comes the hard part. How do we check if the point lies within the rectangle.
+Now that we have the intersection, here comes the hard part. How do we check if the point lies within the rectangle. The first thing that comes to my 
+mind if projection. We project the plane along with the intersection point onto xy, xz, or yz plane and the do the boundary checking on the projected image.
+However, I feel that this is clunky and that there are a alot of case to cover. For example, if the plane is already aligned with the yz plane or xz plane, projecting onto
+the xy plane will result in a plane with zero dimension (a line), and therefore we cannot check for height. To work around this we will have to check first if 
+the plane is aligning to which plane and then project onto the other. I feel like that this is bug prone so I drop the idea.
 
-## NotesOn Reference Material
+After a lot of thinking I feel that this has something to do with dot product but im not sure. At the time I gave up and go to sleep, with some miracle I woke up, and
+the first thing came to my mind is the answer to the question. We can indeed use dot product to check if a point lies inside the boundary.
 
-For most of the part, I've followed directly from the book called "Ray Tracing in One Weekend". With some vector utility functions 
-being taken directly from the book in the c++ implementation version of my code. On some occasions, I would deviate from the book
-to try things on my own.
+Here's the setup,
+
+Take the intersection point minus the corner of the rectangle to get a vector, call this corner_to_inter_1. Then do the same for the opposite corner and call it
+corner_to_inter_2. Now we have two vectors that points from each corner to the intersection point.
+
+For each corner that the corner_to_inter vector points out from, find the neighbhor point, take those point and minus it with the corner points. So,
+in total we will have 6 total vectors,
+
+```c++
+vec3 corner_to_inter_1 = unit_vector(intersection - corner);
+vec3 corner_to_inter_2 = unit_vector(intersection - end_point_3);
+
+vec3 vec_1 = unit_vector(end_point_1 - corner);
+vec3 vec_2 = unit_vector(end_point_2 - corner);
+vec3 vec_3 = unit_vector(end_point_1 - end_point_3);
+vec3 vec_4 = unit_vector(end_point_2 - end_point_3);
+```
+
+to illustrate this I've made a picture,
+
+<p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/illus/2x/vectors.png"> </p>
+
+Using the property of dot project, if the angle between the vectors are more than 90 degress, then it will be negative we can check if the point lies within the
+rectangle.
+
+If the dot product between te corner to each of its' neighnor vector is less than zero, we know that the point must lies outside the box for sure.
+
+<p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/illus/2x/vectors_out.png"> </p>
 
 ## Citation
 

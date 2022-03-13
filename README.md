@@ -259,7 +259,7 @@ Here's the setup,
 Take the intersection point minus the corner of the rectangle to get a vector, call this corner_to_inter_1. Then do the same for the opposite corner and call it
 corner_to_inter_2. Now we have two vectors that points from each corner to the intersection point.
 
-For each corner that the corner_to_inter vector points out from, find the neighbhor point, take those point and minus it with the corner points. So,
+For each corner that the corner_to_inter vector points out from, find the neighbhoring points, take those point and minus it with the corner points. So,
 in total we will have 6 total vectors,
 
 ```c++

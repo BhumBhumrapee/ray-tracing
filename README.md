@@ -188,6 +188,8 @@ As you can see, the image is brighter and have less and less black spots as we a
 For me, I personally feel that this much more challenging to implement than the light material, as it requries me not just to understand the concept but also to figure 
 out the math behind it too. 
 
+##### Representing Rentangles
+
 Rectangle are very simliar in nature to that of a plane but with restricted boundary. Therefore, I decided that it will be easy to to represent the 
 rectangle as a whole plane as it will be easy to store then we can do boundary checking later. 
 
@@ -241,6 +243,8 @@ if (!has_solution) { // if no sol, return immediately
     return false;
 }       
 ```
+
+##### Checking boundaries
 
 Now that we have the intersection, here comes the hard part. How do we check if the point lies within the rectangle. The first thing that comes to my 
 mind if projection. We project the plane along with the intersection point onto xy, xz, or yz plane and the do the boundary checking on the projected image.

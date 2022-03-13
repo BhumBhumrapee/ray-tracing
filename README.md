@@ -178,6 +178,83 @@ To finish this I've increase the intensity of the light but also open the back s
 
 As you can see, the image is brighter and have less and less black spots as we add in more samples.
 
+#### Rectangular Surface
+
+For me, I personally feel that this much more challenging to implement than the light material, as it requries me not just to understand the concept but also to figure 
+out the math behind it too. 
+
+Rectangle are very simliar in nature to that of a plane but with restricted boundary. Therefore, I decided that it will be easy to to represent the 
+rectangle as a whole plane as it will be easy to store then we can do boundary checking later. 
+
+The equation of a plane is given by
+
+<img src="https://render.githubusercontent.com/render/math?math=n \cdot (r - r_0) = 0">
+
+```math
+n \cdot (r - r_0) = 0
+```
+
+Display math:
+
+```math
+e^{i\pi} + 1 = 0
+```
+
+and line math $`a^2 + b^2 = c^2`$.
+
+$$
+n \cdot (r - r_0) = 0
+$$
+
+where n is the normal vector if the plane, and $r_0$ is the point on the plane. Which is equivalent to the follwing,
+
+let $<a,b,c> = n, <x,y,z> = r, <x_0, y_0, z_0> = r_0$
+
+$$
+<a,b,c> \cdot (x - x_0, y - y_0, z - z_0) = 0
+$$
+
+Expanding this,
+
+$$
+ax + by + cz = ax_0 + by_0 + cz_0
+$$
+
+let $ax_0 + by_0 + cz_0 = d$
+
+we get,
+
+$$
+ax + by + cz = d
+$$
+
+With the equation of a line is given by,
+
+$$
+r = r_0 + dt
+$$
+
+where d is a directional vector, or in another form,
+
+$$
+x = x_0 + at \\ 
+y = y_0 + bt \\
+z = z_0 + ct 
+$$
+
+To solve for line-plane intersection we can substitute the x, y, z in and solve for t, so,
+
+$$
+a(x_0 + at) + b(y_0 + bt) + c(z_0 + ct) = d
+$$
+
+simplifying this we get,
+
+$$
+t = \frac{d - (n \cdot r_0)}{n \cdot d}
+$$
+
+
 ## NotesOn Reference Material
 
 For most of the part, I've followed directly from the book called "Ray Tracing in One Weekend". With some vector utility functions 

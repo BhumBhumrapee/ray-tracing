@@ -114,7 +114,7 @@ The final output from the book is the following picture featuring all types of m
 
 ![all_mat_types_512_samples](https://user-images.githubusercontent.com/83196403/158046149-41a3b59d-7f5a-45ba-83ff-221cc649c10a.png)
 
-### Extension to light material and rectangular shape
+### Extension to light material and rectangular shape (On my own)
 
 Although the project was very enjoyable, this is where the real fun part begins, the part where I go try and struggle to implement things not discussed in the book on my own to see if I can expand on the idea I've learned. Let's start with the light material, where I will walkthrough my thinking process.
 

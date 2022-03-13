@@ -188,8 +188,6 @@ rectangle as a whole plane as it will be easy to store then we can do boundary c
 
 The equation of a plane is given by
 
-Display math:
-
 ```math
 n \cdot (r - r_0) = 0
 ```

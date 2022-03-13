@@ -101,9 +101,9 @@ For most of the part, I've followed directly the instruction from the book. At f
 than c++ and all of the utility functions are already there in the library such as NumPy, scipy, and so on. At first, before all of the add-ons effect
 to make the image look nicer, such as anti-aliasing, the code was running just fine at a good speed. However, after I've added anti-aliasing, 
 the rendering process takes much longer time than expected, around 1 minute for a simple image with 10 samples. Realising that this would we 
-bad when we moved to thousands of samples, I've decided to move to c++ as the author of the book recommended. Another reason that I've chosen c++ is
+bad when we moved to thousands of samples, I've decided to move to c++ as the author of the book have recommended. Another reason that I've chosen c++ is
 the fact that I can gain access to multiprocessing libraries such as OpenMP very easily. This will be used to speed up the rendering process even more. I've splitted 
-my learning into two part, which is the part where i follow the book, and the part where I go out and try things on my own. Let's start with the theory from the book.
+my learning into two parts, which is the part where I follow the book, and the part where I go out and try things on my own. Let's start with the theory from the book.
 
 ### Theory / Straight from the book
 

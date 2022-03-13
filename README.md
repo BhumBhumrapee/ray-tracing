@@ -108,7 +108,13 @@ the fact that I can gain access to multiprocessing library such as openmp very e
 Like stated, most of the idea behind the implementation is followed directly from the book, this includes, camera, basic materials, hittable class abstraction, vector functions,
 ray casting, sphere shape, and color. Some have little tweak in between but it is very minor.
 
+The final output from the book is the following picture featuring all types of material,
+
+![all_mat_types_512_samples](https://user-images.githubusercontent.com/83196403/158046149-41a3b59d-7f5a-45ba-83ff-221cc649c10a.png)
+
 ### Extension to light material and rectangular shape
+
+#### Light material
 
 After finishing the book and having a proper running code, I've decided also to try to extend from the idea discussed in the book regarding material. I've tryied
 to implement light material by myself. There was a lot of confusion in the first place, but the idea in the end was very simple. What I implemented was just to 
@@ -117,10 +123,47 @@ would then get multiply to the original color it bounces from.
 
 ```c++
 virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override {
-     attenuation = albedo; // return white color
+     attenuation = albedo; // return light intensity
      return false;
 }
 ```
+For me, I interpret attenuation in this place to be the intensity of the light, so the value could be greater than one. This makes sense because,
+the ray_color funciton is recursive which means that as the function returns the value of the light get decrease every step because it is multiply to some
+factor which is the color.
+
+```c++
+if (rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
+     return attenuation * ray_color(scattered, world, depth - 1);
+}
+```
+
+So if we have the light color, when we instantitate the material, higher, the color of the object that bounces off into the light source will be whiter / brighter.
+And for rays that come from far away the less the brightness will be.
+
+First render of the custom light material,
+
+![first_light_image_256_samples](https://user-images.githubusercontent.com/83196403/158045967-6defa67e-5594-4c1d-ac8f-bdb53016cfda.png)
+
+This iamge has 256 samples per pixel and is using defocus blur, that is why even image in the light seems to be blurred. The light souce here is
+the white sphere on the very top of the picture. You can also see that there is now shadow in the picture unlike ea
+The first noticable thing in this picture is the pressence of black spots. 
+After a lot of thinking, I've come to the conclusion that this occured because too many light rays are randomly bouncing into the background which doesn't have any color (black). That is why the ball nearer to the light source have less black spot because most of them are more likely to bounce into the light source. This could be solved with more sampling per pixel, but it will be cost more time to render. 
+
+To work around this, I've realised that if the object are inside enclosed space the light ray will bounce and share light with other object more easily, as none of them will
+go into the void. To tes this, I've set up a simple scene where there is a light source on the left and also a hole, the rest of the side are closed.
+
+![light_room](https://user-images.githubusercontent.com/83196403/158046264-039153b1-7078-4445-9e0f-59b3e5272818.png)
+
+As can be seen, the overall picture is brighter and much more illuminated than the first one. However, there's still black spot because one of the side is still open
+into the void.
+
+![light_box](https://user-images.githubusercontent.com/83196403/158046185-516604cc-741a-4178-8ec4-a3a12ecdb81e.png)
+
+<p align="center"> <em> The picture with balls inside an enclosed space with light source on the left in distance. </em> </p>
+
+Compared to the first render which is in an open space, this render only take 128 sampling and is much more clearer than the first image. Although, the
+black noise is still around as some of the scattered might not find its way to the light source, the overall picture is brighter and is properly illuminated.
+
 
 ## NotesOn Reference Material
 

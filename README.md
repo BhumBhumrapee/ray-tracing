@@ -154,16 +154,29 @@ go into the void. To test this, I've set up a simple scene where there is a ligh
 
 ![light_room](https://user-images.githubusercontent.com/83196403/158046264-039153b1-7078-4445-9e0f-59b3e5272818.png)
 
-As can be seen, the overall picture is brighter and much more illuminated than the first one. However, there's still a black spot because one of the sides is still open
+Compared to the first rendered image with light source which is in an open space, this renders only take 128 samplings and is much clearer than the first image. As can be seen, the overall picture is brighter and much more illuminated than the first one. However, there's still a black spot because one of the sides is still open
 into the void.
 
 ![light_box](https://user-images.githubusercontent.com/83196403/158046185-516604cc-741a-4178-8ec4-a3a12ecdb81e.png)
 
 <p align="center"> <em> The picture with balls inside an enclosed space with light source on the left in distance. </em> </p>
 
-Compared to the first render which is in an open space, this renders only take 128 samplings and is much clearer than the first image. Although, the
-black noise is still around as some of the scattered might not find their way to the light source, the overall picture is brighter and is properly illuminated.
+Note that in this picture the light source is futher away and has less intensity than the one above this picutre, that is why it looks dimmer.
+As you can see the black spots are lesser now when we enclose the object and light source in a closed space.
 
+To finish this I've increase the intensity of the light but also open the back side, and render the picture again,
+
+![open_back_room_with_light_256_samples](https://user-images.githubusercontent.com/83196403/158046568-9c39fdad-b9af-4723-a28c-1a09fc4bed7a.png)
+<p align="center"> <em> 256 samples per pixel </em> </p>
+
+
+![open_back_room_with_light_512_samples](https://user-images.githubusercontent.com/83196403/158046580-49a716be-995f-495d-9bb7-5d3ddfe6bf0c.png)
+<p align="center"> <em> 512 samples per pixels </em> </p>
+
+![open_back_room_with_light_768_samples](https://user-images.githubusercontent.com/83196403/158046585-3955f0a0-ebac-4910-b6e1-23de276167e4.png)
+<p align="center"> <em> 768 samples per pixels </em> </p>
+
+As you can see, the image is brighter and have less and less black spots as we add in more samples.
 
 ## NotesOn Reference Material
 

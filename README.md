@@ -271,9 +271,42 @@ to illustrate this I've made a picture,
 Using the property of dot project, if the angle between the vectors are more than 90 degress, then it will be negative we can check if the point lies within the
 rectangle.
 
-If the dot product between te corner to each of its' neighnor vector is less than zero, we know that the point must lies outside the box for sure.
+If the dot product between te corner to each of its' neighnor vector is less than zero, we know that the point must lies outside the box for sure. For example,
 
 <p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/illus/2x/vectors_out.png"> </p>
+
+In the following picture the dot product between u and its' neighbhor vector w will be less than zero. Or on another side,
+
+<p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/illus/2x/vectors_out_2.png"> </p>
+
+The dot product between v1 and u1 will be less than zero while others will all be positive.
+
+Therefore if the point lies inside the rectangle, the dot product of all four vectors to its correspoding conrner to intersection vector must be positive. 
+In code,
+
+```c++
+bool con1 = dot(vec_1, corner_to_inter_1) > 0;
+bool con2 = dot(vec_2, corner_to_inter_1) > 0;
+bool con3 = dot(vec_3, corner_to_inter_2) > 0;
+bool con4 = dot(vec_4, corner_to_inter_2) > 0;
+if (con1 && con2 && con3 && con4) { // check if the point lies within the rectangle
+    rec.t = t;
+    rec.p = r.at(t);
+    rec.set_face_normal(r, normal);
+    rec.mat_ptr = mat_ptr;
+    return true; 
+}
+return false;
+```
+
+This is much better than the projection method, because it doesn't require checking all the case then projecting then do checking again.
+Including this in the scene too we get,
+
+<p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/c%2B%2B/images/open_light_rec_128_samples.png"> </p>
+<p align="center"> <em> 128 samples per pixel, open space</em> </p>
+
+<p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/c%2B%2B/images/open_light_rec_512_samples.png"> </p>
+<p align="center"> <em> 512 samples per pixel, open space</em> </p>
 
 ## Citation
 

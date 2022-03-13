@@ -186,7 +186,7 @@ out the math behind it too.
 Rectangle are very simliar in nature to that of a plane but with restricted boundary. Therefore, I decided that it will be easy to to represent the 
 rectangle as a whole plane as it will be easy to store then we can do boundary checking later. 
 
-![image](https://user-images.githubusercontent.com/83196403/158047250-b753d5ed-7323-4049-8a14-690a370100ca.png)
+<img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/eq_of_plane.PNG" align="center">
 
 
 ## NotesOn Reference Material

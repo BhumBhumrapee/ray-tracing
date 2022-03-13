@@ -7,3 +7,12 @@ __pycache__/utils.cpython-38.pyc
 *.out
 *.xml
 *.iml
+*.opendb
+c++/.vs/c++/v16/.suo
+*.db
+*.db-shm
+*.db-wal
+*.json
+*.sqlite
+c++/src/2
+c++/src/3

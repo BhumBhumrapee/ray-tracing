@@ -31,13 +31,10 @@ color ray_color(const ray& r, const hittable& world, int depth) {
         return attenuation;
     }
 
-    return color(0,0,0);
-
-    /*
     vec3 unit_direction = unit_vector(r.direction());
     double t = 0.5* (unit_direction.y() + 1.0);
     return (1 - t) * color(1, 1, 1) + t * color(0.5, 0.7, 1);
-    */
+
 }
 
 
@@ -46,11 +43,12 @@ int main() {
 
     // Settings
 
-    const double aspect_ratio = 2.0/2.3;
-    const int image_width = 800;
-    const int image_height = static_cast<int>(image_width / aspect_ratio);
+    const double aspect_ratio = 3.0/ 2;
+    const int image_width = 1200;
+    const int image_height = int(image_width / aspect_ratio);
     const int samples_per_pixel = 512;
-    const int max_depth = 16;
+    const int max_depth = 50;
+
 
     // World
 
@@ -68,12 +66,12 @@ int main() {
     */
     
     point3 lookfrom(13,2,3);
-    point3 lookat(0,1,2);
+    point3 lookat(0,0,0);
     vec3 vup(0,1,0);
     double dist_to_focus = 10;
-    double aperture = 0;
+    double aperture = 0.1;
 
-    camera cam(lookfrom, lookat, vup, 15, aspect_ratio, aperture, dist_to_focus);
+    camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
     
 
     // Render
@@ -82,7 +80,7 @@ int main() {
     std::cerr << "init time: " << ctime(&my_time) << "\n";
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
-    for (int j = image_height-1; j >= 0; --j) {
+    for (int j = image_height - 1; j >= 0; --j) {
 
         std::cerr << "\rlines remaining: " << j << " num threads: " << omp_get_max_threads() << ' ' << std::flush;
 

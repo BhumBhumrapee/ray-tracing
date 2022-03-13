@@ -323,8 +323,8 @@ Lastly, I've included OpenMp into the code so that it runs faster. I parallelize
     
     pixel_color = color(0,0,0);
     partial_color = color(0,0,0);
-    #pragma omp for 
     
+    #pragma omp for 
     for (int s = 0; s < samples_per_pixel; ++s) { // anti-aliasing, generate more smooth, less sharp image.
         auto u = (i + random_double()) / (image_width-1);
         auto v = (j + random_double()) / (image_height-1);

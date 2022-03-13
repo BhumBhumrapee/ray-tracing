@@ -94,4 +94,49 @@ To store this information, we can instead view the rectangle as a plane in 3D wh
 To check if the intersection lies within the bound, we have serveral options. I thought of 2 ways which is first projection onto different planes, and 
 second which i decided to implement which is using the property of dot products.
 
+## Development
 
+For most of the part, I've follow directly the instruction from the book. At first I've tried to implement everything in python, as it is much simpler
+than c++ and that all of the utilities functions are already there in library such as numpy, scipy, and so on. At first, before all of the add-ons effect
+to make the image look nicer, such as anti-aliasing, the code was running just fine at a good speed. However, after I've added anti-alising, 
+the rendering process takes much longer time than expected, around 1 mininute for a simple image with 10 samples. Realising that this would we 
+bad when we moved to thousands of samples, I've decided to move to c++ as the author of the book recommened. Another reason that I've chosen c++ is
+the fact that I can gain access to multiprocessing library such as openmp very easily. This will be used to speed up the rendering process even more.
+
+### Theory / Straight from the book
+
+Like stated, most of the idea behind the implementation is followed directly from the book, this includes, camera, basic materials, hittable class abstraction, vector functions,
+ray casting, sphere shape, and color. Some have little tweak in between but it is very minor.
+
+### Extension to light material and rectangular shape
+
+After finishing the book and having a proper running code, I've decided also to try to extend from the idea discussed in the book regarding material. I've tryied
+to implement light material by myself. There was a lot of confusion in the first place, but the idea in the end was very simple. What I implemented was just to 
+return the attenuation of the light without scattering the ray (as this is the source of the light, it should not scatter in my opinion). This attenuation
+would then get multiply to the original color it bounces from.
+
+```c++
+virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override {
+     attenuation = albedo; // return white color
+     return false;
+}
+```
+
+## NotesOn Reference Material
+
+For most of the part, I've follow directly from the book called "Ray Tracing in One Weekend". With some vector utility functions 
+being taken directly from the book in the c++ implementation version of my code. On some occasion I would deviate from the book
+to try things on my own.
+
+## Citation
+
+[_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
+
+Title (series): “Ray Tracing in One Weekend Series”
+Title (book): “Ray Tracing in One Weekend”
+Author: Peter Shirley
+Editors: Steve Hollasch, Trevor David Black
+Version/Edition: v3.2.3
+Date: 2020-12-07
+URL (series): https://raytracing.github.io/
+URL (book): https://raytracing.github.io/books/RayTracingInOneWeekend.html

@@ -223,7 +223,7 @@ d = dot(normal, cn); // the constant d of equation of plane, ax + by + cz = d
 
 Now to solve for the intersection,
 
-<p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/intersection1.PNG"> </p>
+<p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/intersection.PNG"> </p>
 
 Now that we have the t we can easily solve for the point of intersection very easily,
 

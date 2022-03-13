@@ -188,16 +188,10 @@ rectangle as a whole plane as it will be easy to store then we can do boundary c
 
 The equation of a plane is given by
 
-<img src="https://render.githubusercontent.com/render/math?math=n \cdot (r - r_0) = 0">
-
-```math
-n \cdot (r - r_0) = 0
-```
-
 Display math:
 
 ```math
-e^{i\pi} + 1 = 0
+n \cdot (r - r_0) = 0
 ```
 
 and line math $`a^2 + b^2 = c^2`$.

@@ -116,7 +116,7 @@ The final output from the book is the following picture featuring all types of m
 
 ### Extension to light material and rectangular shape
 
-Although the project was very enjoyable, this is where the fun part begins. Where I go try and struggle to implement things not discussed in the book by my own. Let's start with the light material, where I will walkthough my thinking process.
+Although the project was very enjoyable, this is where the fun part begins, where I go try and struggle to implement things not discussed in the book by my own. Let's start with the light material, where I will walkthrough my thinking process.
 
 #### Light material
 

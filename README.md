@@ -148,7 +148,7 @@ the white sphere on the very top of the picture. You can also see the shadow tha
 The first noticeable thing in this picture is the presence of black spots. 
 This is due to too many light rays are randomly bouncing into the background which doesn't have any color (black). That is why the ball nearer to the light source have a fewer black spot because most of them are more likely to bounce into the light source. This could be solved with more sampling per pixel, but it will be cost more time to render. 
 
-To work around this, I've realised that if the object is inside an enclosed space the light ray will bounce and share the light with another object more easily, as none of them will
+To work around this, If we put the object inside an enclosed space the light ray will bounce and share the light with another object more easily, as none of them will
 go into the void. To test this, I've set up a simple scene where there is a light source on the left and also a hole, the rest of the sides are closed.
 
 ![light_room](https://user-images.githubusercontent.com/83196403/158046264-039153b1-7078-4445-9e0f-59b3e5272818.png)

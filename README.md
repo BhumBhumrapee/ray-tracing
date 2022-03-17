@@ -85,24 +85,18 @@ There are currently a total of 2 shapes, which are the following:
 
 ### 1: Sphere
 
-This shape is simple to implement as we can represent the surface in 3D and check for intersection 
-with the ray quite easily.
+A simle sphere in 3D space, defined by origin and radius. The implementation also support hollow sphere. 
 
 ### 2: Rectangle
 
-A 2D rectangular surface. To define this surface we need two vectors that define the length of two sides and also the orientation. 
-To store this information, we can instead view the rectangle as a plane in 3D which then we can solve for the intersection quite easily.
-To check if the intersection lies within the bound, we have several options. I thought of 2 ways which are first projection onto different planes, and 
-the second which I decided to implement is using the property of dot products.
+A 2D rectangular surface. Defined by equation of the plane and length vectors.
 
 ## Development
 
 For most of the part, I've followed directly the instruction from the book. At first, I've tried to implement everything in python, as it is much simpler
-than c++ and all of the utility functions are already there in the library such as NumPy, scipy, and so on. At first, before all of the add-ons effect
-to make the image look nicer, such as anti-aliasing, the code was running just fine at a good speed. However, after I've added anti-aliasing, 
+than c++ and all of the utility functions are already there in the library such as NumPy, scipy, and so on. However, after I've added anti-aliasing, 
 the rendering process takes much longer time than expected, around 1 minute for a simple image with 10 samples. Realising that this would we 
-bad when we moved to thousands of samples, I've decided to move to c++ as the author of the book have recommended. Another reason that I've chosen c++ is
-the fact that I can gain access to multiprocessing libraries such as OpenMP very easily. This will be used to speed up the rendering process even more. I've splitted 
+bad when we moved to thousands of samples, I've decided to move to c++ as the author of the book have recommended. I've splitted 
 my learning into two parts, which is the part where I follow the book, and the part where I go out and try things on my own. Let's start with the theory from the book.
 
 ### Theory / Straight from the book

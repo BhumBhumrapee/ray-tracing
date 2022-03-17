@@ -108,7 +108,7 @@ my learning into two parts, which is the part where I follow the book, and the p
 ### Theory / Straight from the book
 
 As stated, most of the idea behind the implementation is followed directly from the book, this includes, camera, basic materials, hittable class abstraction, vector functions,
-ray casting, sphere shape, and colour. Some have little tweaks in between but it is very minor. I've learned a lot through reading the whole book although I have already learned most of the math and physics concepts discussed inside from physics, linear algebra and calculus class, the book is the one that connects and bring it all to life. 
+ray casting, sphere shape, and colour. Some have little tweaks in between but it is very minor. I've learned a lot through reading the whole book, and although I have already learned most of the math and physics concepts discussed inside from physics (lens, light), linear algebra (parametric equations, vectors) and calculus (vector cal) class, the book is the one that connects and bring it all to life. 
 
 The final output from the book is the following picture featuring all types of material,
 
@@ -122,7 +122,7 @@ Although the project was very enjoyable, this is where the real fun part begins,
 
 After finishing the book and having a proper running code, I've decided also to try to extend from the idea discussed in the book regarding the material. I've tried
 to implement light material by myself. There was a lot of confusion in the first place, but the idea, in the end, was very simple. What I implemented was just to 
-return the attenuation of the light without scattering the ray (as this is the source of the light, it should not scatter in my opinion). This attenuation
+return the attenuation of the light without scattering the ray (as this is the source of the light, it should not scatter in my interpretation). This attenuation
 would then get multiplied to the original colour it bounces from.
 
 ```c++
@@ -131,6 +131,7 @@ virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation,
      return false;
 }
 ```
+
 For me, I interpret attenuation in this place to be the intensity of the light, so the value could be greater than one. This makes sense because,
 the ray_color function is recursive which means that as the function returns the value of the light get decrease every step because it is multiplied to some
 the factor which is the colour. Therefore, the higher the value the further the light travel (stay alive) and the brighter it is.
@@ -151,7 +152,7 @@ First render of the custom light material,
 This image has 256 samples per pixel and is using defocus blur, that is why even image in the light seems to be blurred. The light source here is
 the white sphere on the very top of the picture. You can also see the shadow that depends on the light source unlike the first rendered image.
 The first noticeable thing in this picture is the presence of black spots. 
-After a lot of thinking, I've come to the conclusion that this occurred because too many light rays are randomly bouncing into the background which doesn't have any color (black). That is why the ball nearer to the light source have a fewer black spot because most of them are more likely to bounce into the light source. This could be solved with more sampling per pixel, but it will be cost more time to render. 
+This is due to too many light rays are randomly bouncing into the background which doesn't have any color (black). That is why the ball nearer to the light source have a fewer black spot because most of them are more likely to bounce into the light source. This could be solved with more sampling per pixel, but it will be cost more time to render. 
 
 To work around this, I've realised that if the object is inside an enclosed space the light ray will bounce and share the light with another object more easily, as none of them will
 go into the void. To test this, I've set up a simple scene where there is a light source on the left and also a hole, the rest of the sides are closed.
@@ -185,8 +186,7 @@ As you can see, the image is brighter and have less and less black spots as we a
 
 #### Rectangular Surface
 
-For me, I personally feel that this much more challenging to implement than the light material, as it requries me not just to understand the concept but also to figure 
-out the math behind it too. 
+Next, I'll be discussing how I implemented rectangular surface.
 
 #### Representing Rentangles
 
@@ -232,7 +232,7 @@ point3 intersection = r.at(t);
 ```
 
 Note that there might not be a solution, e.g the ray is parallel to the plane. This happens when the demoniminator is zero which means that
-the ray is perpendicular to the normal of the plane which means it is parallel to the plane itself, so we can check that first to avoid dividing by
+the ray is perpendicular to the normal of the plane which means it is parallel to the plane itself. So, we can check that first to avoid dividing by
 zero error.
 
 ```c++
@@ -249,12 +249,10 @@ if (!has_solution) { // if no sol, return immediately
 Now that we have the intersection, here comes the hard part. How do we check if the point lies within the rectangle. The first thing that comes to my 
 mind if projection. We project the plane along with the intersection point onto xy, xz, or yz plane and the do the boundary checking on the projected image.
 However, I feel that this is clunky and that there are a alot of case to cover. For example, if the plane is already aligned with the yz plane or xz plane, projecting onto
-the xy plane will result in a plane with zero dimension (a line), and therefore we cannot check for height. To work around this we will have to check first if 
+the xy plane will result in a plane with zero dimension (a line), and therefore we cannot check for z value. To work around this we will have to check first if 
 the plane is aligning to which plane and then project onto the other. I feel like that this is bug prone so I drop the idea.
 
-After a lot of thinking I sense that this has something to do with dot product and the angles between vector the corner vectors and the vector to the intersection point, however, the idea is not solid / clear to me at the time yet. I drew out pictures and then I suddenly realise how to do this (although I didn't prove any of this, so there might be some case where I missed and I could be wrong). 
-
-Here's the setup,
+After a lot of thinking I came up with another way, and here's the setup,
 
 Take the intersection point minus the corner of the rectangle to get a vector, call this corner_to_inter_1. Then do the same for the opposite corner and call it
 corner_to_inter_2. Now we have two vectors that points from each corner to the intersection point.
@@ -307,7 +305,8 @@ if (con1 && con2 && con3 && con4) { // check if the point lies within the rectan
 return false;
 ```
 
-This is much better than the projection method, because it doesn't require checking all the case then projecting then do checking again.
+This is much better than the projection method, because it doesn't require checking all the case then projecting then do checking again. And we dont have to worry about anoter dimension because all points are on the same plane.
+
 Including this in the scene too we get,
 
 <p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/c%2B%2B/images/open_light_rec_128_samples.png"> </p>

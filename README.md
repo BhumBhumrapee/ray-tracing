@@ -25,7 +25,7 @@ Note: Add OpenMP flag to use OpenMP to speed up the rendering.
 
 ## Rendering
 
-### Openmp settings
+### OpenMp settings
 
 If **compiled with OpenMP flag** do this before starting the main program, else skip this section. 
 To speed up the rendering process, I've used a little bit of parallel programming to do sampling in parallel using OpenMP.

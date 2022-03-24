@@ -99,7 +99,7 @@ the rendering process takes much longer time than expected, around 1 minute for 
 bad when we moved to thousands of samples, I've decided to move to c++ as the author of the book have recommended. I've splitted 
 my learning into two parts, which is the part where I follow the book, and the part where I go out and try things on my own. Let's start with the theory from the book.
 
-### Theory / Straight from the book
+### What I learned from the book
 
 As stated, most of the idea behind the implementation is followed directly from the book, this includes, camera, basic materials, hittable class abstraction, vector functions,
 ray casting, sphere shape, and colour. Some have little tweaks in between but it is very minor. I've learned a lot through reading the whole book, and although I have already learned most of the math and physics concepts discussed inside from physics (lens, light), linear algebra (parametric equations, vectors) and calculus (vector cal) class, the book is the one that connects and bring it all to life. 

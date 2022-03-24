@@ -104,7 +104,9 @@ my learning into two parts, which is the part where I follow the book, and the p
 As stated, most of the idea behind the implementation is followed directly from the book, this includes, camera, basic materials, hittable class abstraction, vector functions,
 ray casting, sphere shape, and colour. Some have little tweaks in between but it is very minor. I've learned a lot through reading the whole book, and although I have already learned most of the math and physics concepts discussed inside from physics (lens, light), linear algebra (parametric equations, vectors) and calculus (vector cal) class, the book is the one that connects and bring it all to life. 
 
-The final output from the book is the following picture featuring all types of material,
+The idea is simple. We just send a ray from the eye into the world (scene) passing through each pixels that we want to render. This way, unlike the real life where light is emitted form the source and bounces from a bunch of stuffs before entering our eyes, we trace from the eye back to the light source. This turn out to be just a bunch of vector math (for example calculating the direction of the ray, the intersection, and etc). When the ray hit object, it behave differently depending on the type of materials. If it is lambertian, then it scatters randomly around the normal. If it's dielectric like glass, then there's refraction. Then, to improve the image quality (removing jagged edges) we can samples a lot of ray per pixel and average the color to smooth out the edges.
+
+From all of this, The final output from the book is the following picture featuring all types of material,
 
 ![all_mat_types_512_samples](https://user-images.githubusercontent.com/83196403/158046149-41a3b59d-7f5a-45ba-83ff-221cc649c10a.png)
 

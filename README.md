@@ -325,7 +325,23 @@ The setup is very similar, let's take a look at the triangle case, but this shou
 <p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/illus/2x/tri_3.png"> </p>
 
 For a point to lies inside the triangle, three condition must be true.
-1. 
+1. The angle between v1 and vec_a should be less than angle A
+2. The angle between v2 and vec_b should be less than angle B
+3. The angle between v3 and vec_c should be less than angle C
+
+If all is true, then the point lies inside the triangle. 
+
+For convex n sided polygon,
+
+Input: a list containing points definding the n sided polygon, with length n. The points that defines the polygon are arranged in a counter clockwise order. 
+
+For each point, take the next point and minus it with this point to get a vector pointing to the next point.
+For the last point, take the first point and minus with the last point. Store the results inside a list say vecs[]. Then, for each vectors,
+find the angle between this vector and the last vector multiplied by negative one. This will yield the angle between the tip and the tail. 
+Store this inside a list also called angles[]. Lastly, for each points, find the vector to the intersection point point_to_inter[]. 
+
+Now, if the point lies inside the polygon, then the angle between vecs[i] and point_to_inter[i] must be less than angles[i], for all i >= 0 and i < n.
+
 
 ### OpemMp
 

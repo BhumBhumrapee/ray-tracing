@@ -342,6 +342,10 @@ Store this inside a list also called angles[]. Lastly, for each points, find the
 
 Now, if the point lies inside the polygon, then the angle between vecs[i] and point_to_inter[i] must be less than angles[i], for all i >= 0 and i < n.
 
+sample,
+
+<p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/c%2B%2B/images/tri.png"> </p>
+<p align="center"> <em> triangular surface </em> </p>
 
 ### OpemMp
 

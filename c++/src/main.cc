@@ -12,6 +12,7 @@
 #include <time.h>
 #include "scenes.h"
 #include "rectangle.h"
+#include "triangle.h"
 
 color ray_color(const ray& r, const hittable& world, int depth) {
     
@@ -45,15 +46,15 @@ int main() {
     // Settings
 
     const double aspect_ratio = 3.0/ 2;
-    const int image_width = 1200;
+    const int image_width = 600;
     const int image_height = int(image_width / aspect_ratio);
-    const int samples_per_pixel = 512;
-    const int max_depth = 50;
+    const int samples_per_pixel = 16;
+    const int max_depth = 5;
 
 
     // World
 
-    hittable_list world = random_scene();
+    hittable_list world = scene_shapes();
 
     /*
 
@@ -69,13 +70,13 @@ int main() {
     
     */
     
-    point3 lookfrom(13,2,3);
-    point3 lookat(0,0,0);
+    point3 lookfrom(0, 0, 10);
+    point3 lookat(2,0,-3);
     vec3 vup(0,1,0);
     double dist_to_focus = 10;
-    double aperture = 0.1;
+    double aperture = 0;
 
-    camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
+    camera cam(lookfrom, lookat, vup, 40, aspect_ratio, aperture, dist_to_focus);
     
 
     // Render

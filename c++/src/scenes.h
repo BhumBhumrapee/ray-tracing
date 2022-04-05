@@ -4,6 +4,25 @@
 #include "material.h"
 #include "sphere.h"
 #include "rectangle.h"
+#include "triangle.h"
+
+hittable_list scene_shapes() {
+    hittable_list world;
+    
+    shared_ptr<material> ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
+    world.add(make_shared<sphere>(point3(0,-1000,0), 1000, ground_material));
+
+    shared_ptr<lambertian> mat_material = make_shared<lambertian>(color(0.8, 0.5, 0.2));
+    
+    world.add(make_shared<triangle>(point3(0, 0, -3), point3(4, 0, -3), point3(2,4,-3), mat_material));
+
+    shared_ptr<lambertian> mat_material2 = make_shared<lambertian>(color(0.8, 0.5, 0.8));
+
+    world.add(make_shared<triangle>(point3(6, 0, -3), point3(7, 2, -3), point3(5,4,-3), mat_material2));
+
+    return world;
+}
+
 
 hittable_list scene1() {
 

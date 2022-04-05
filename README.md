@@ -320,7 +320,12 @@ I used the rectangle for light sources as it looks cooler than a sphere. Now wit
 #### Extending beyond rectangles
 
 After some thought, I've came up with a similar stragety to implement triangular surface. I've generalised my method to apply to n sided polygon as well.
-The setup is very similar, let's take a look at the triangle case. 
+The setup is very similar, let's take a look at the triangle case, but this should generalise to any convex n sided polygon. 
+
+<p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/latex/illus/2x/tri_3.png"> </p>
+
+For a point to lies inside the triangle, three condition must be true.
+1. 
 
 ### OpemMp
 

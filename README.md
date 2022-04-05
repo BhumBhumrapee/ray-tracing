@@ -25,7 +25,7 @@ Note: Add OpenMP flag to use OpenMP to speed up the rendering.
 
 ## Rendering
 
-### Openmp settings
+### OpenMp settings
 
 If **compiled with OpenMP flag** do this before starting the main program, else skip this section. 
 To speed up the rendering process, I've used a little bit of parallel programming to do sampling in parallel using OpenMP.
@@ -85,32 +85,28 @@ There are currently a total of 2 shapes, which are the following:
 
 ### 1: Sphere
 
-This shape is simple to implement as we can represent the surface in 3D and check for intersection 
-with the ray quite easily.
+A simle sphere in 3D space, defined by origin and radius. The implementation also support hollow sphere. 
 
 ### 2: Rectangle
 
-A 2D rectangular surface. To define this surface we need two vectors that define the length of two sides and also the orientation. 
-To store this information, we can instead view the rectangle as a plane in 3D which then we can solve for the intersection quite easily.
-To check if the intersection lies within the bound, we have several options. I thought of 2 ways which are first projection onto different planes, and 
-the second which I decided to implement is using the property of dot products.
+A 2D rectangular surface. Defined by equation of the plane and length vectors.
 
 ## Development
 
 For most of the part, I've followed directly the instruction from the book. At first, I've tried to implement everything in python, as it is much simpler
-than c++ and all of the utility functions are already there in the library such as NumPy, scipy, and so on. At first, before all of the add-ons effect
-to make the image look nicer, such as anti-aliasing, the code was running just fine at a good speed. However, after I've added anti-aliasing, 
+than c++ and all of the utility functions are already there in the library such as NumPy, scipy, and so on. However, after I've added anti-aliasing, 
 the rendering process takes much longer time than expected, around 1 minute for a simple image with 10 samples. Realising that this would we 
-bad when we moved to thousands of samples, I've decided to move to c++ as the author of the book have recommended. Another reason that I've chosen c++ is
-the fact that I can gain access to multiprocessing libraries such as OpenMP very easily. This will be used to speed up the rendering process even more. I've splitted 
+bad when we moved to thousands of samples, I've decided to move to c++ as the author of the book have recommended. I've splitted 
 my learning into two parts, which is the part where I follow the book, and the part where I go out and try things on my own. Let's start with the theory from the book.
 
-### Theory / Straight from the book
+### What I learned from the book
 
 As stated, most of the idea behind the implementation is followed directly from the book, this includes, camera, basic materials, hittable class abstraction, vector functions,
-ray casting, sphere shape, and colour. Some have little tweaks in between but it is very minor. I've learned a lot through reading the whole book although I have already learned most of the math and physics concepts discussed inside from physics, linear algebra and calculus class, the book is the one that connects and bring it all to life. 
+ray casting, sphere shape, and colour. Some have little tweaks in between but it is very minor. I've learned a lot through reading the whole book, and although I have already learned most of the math and physics concepts discussed inside from physics (lens, light), linear algebra (parametric equations, vectors) and calculus (vector cal) class, the book is the one that connects and bring it all to life. 
 
-The final output from the book is the following picture featuring all types of material,
+The idea is simple. We just need to try to mimic the physics of the real world. To do this, we send rays from the eye into the world (scene) passing through each pixels that we want to render. This way, unlike the real life where light is emitted form the source and bounces from a bunch of stuffs before entering our eyes, we trace from the eye back to the light source. This turn out to be just a bunch of vector math (for example calculating the direction of the ray, the intersection, the time of intersection, and etc). When the ray hit object, it behaves differently depending on the type of materials. If it is lambertian, then it scatters randomly around the normal. If it's dielectric like glass, then there's refraction. Then, to improve the image quality (removing jagged edges) we can samples a lot of ray per pixel and average the color to smooth out the edges.
+
+From all of this, The final output from the book is the following picture featuring all types of material,
 
 ![all_mat_types_512_samples](https://user-images.githubusercontent.com/83196403/158046149-41a3b59d-7f5a-45ba-83ff-221cc649c10a.png)
 
@@ -122,7 +118,7 @@ Although the project was very enjoyable, this is where the real fun part begins,
 
 After finishing the book and having a proper running code, I've decided also to try to extend from the idea discussed in the book regarding the material. I've tried
 to implement light material by myself. There was a lot of confusion in the first place, but the idea, in the end, was very simple. What I implemented was just to 
-return the attenuation of the light without scattering the ray (as this is the source of the light, it should not scatter in my opinion). This attenuation
+return the attenuation of the light without scattering the ray (as this is the source of the light, it should not scatter in my interpretation). This attenuation
 would then get multiplied to the original colour it bounces from.
 
 ```c++
@@ -131,6 +127,7 @@ virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation,
      return false;
 }
 ```
+
 For me, I interpret attenuation in this place to be the intensity of the light, so the value could be greater than one. This makes sense because,
 the ray_color function is recursive which means that as the function returns the value of the light get decrease every step because it is multiplied to some
 the factor which is the colour. Therefore, the higher the value the further the light travel (stay alive) and the brighter it is.
@@ -151,9 +148,9 @@ First render of the custom light material,
 This image has 256 samples per pixel and is using defocus blur, that is why even image in the light seems to be blurred. The light source here is
 the white sphere on the very top of the picture. You can also see the shadow that depends on the light source unlike the first rendered image.
 The first noticeable thing in this picture is the presence of black spots. 
-After a lot of thinking, I've come to the conclusion that this occurred because too many light rays are randomly bouncing into the background which doesn't have any color (black). That is why the ball nearer to the light source have a fewer black spot because most of them are more likely to bounce into the light source. This could be solved with more sampling per pixel, but it will be cost more time to render. 
+This is due to too many light rays are randomly bouncing into the background which doesn't have any color (black). That is why the ball nearer to the light source have a fewer black spot because most of them are more likely to bounce into the light source. This could be solved with more sampling per pixel, but it will be cost more time to render. 
 
-To work around this, I've realised that if the object is inside an enclosed space the light ray will bounce and share the light with another object more easily, as none of them will
+To work around this, If we put the object inside an enclosed space the light ray will bounce and share the light with another object more easily, as none of them will
 go into the void. To test this, I've set up a simple scene where there is a light source on the left and also a hole, the rest of the sides are closed.
 
 ![light_room](https://user-images.githubusercontent.com/83196403/158046264-039153b1-7078-4445-9e0f-59b3e5272818.png)
@@ -185,8 +182,7 @@ As you can see, the image is brighter and have less and less black spots as we a
 
 #### Rectangular Surface
 
-For me, I personally feel that this much more challenging to implement than the light material, as it requries me not just to understand the concept but also to figure 
-out the math behind it too. 
+Next, I'll be discussing how I implemented rectangular surface.
 
 #### Representing Rentangles
 
@@ -232,7 +228,7 @@ point3 intersection = r.at(t);
 ```
 
 Note that there might not be a solution, e.g the ray is parallel to the plane. This happens when the demoniminator is zero which means that
-the ray is perpendicular to the normal of the plane which means it is parallel to the plane itself, so we can check that first to avoid dividing by
+the ray is perpendicular to the normal of the plane which means it is parallel to the plane itself. So, we can check that first to avoid dividing by
 zero error.
 
 ```c++
@@ -249,12 +245,10 @@ if (!has_solution) { // if no sol, return immediately
 Now that we have the intersection, here comes the hard part. How do we check if the point lies within the rectangle. The first thing that comes to my 
 mind if projection. We project the plane along with the intersection point onto xy, xz, or yz plane and the do the boundary checking on the projected image.
 However, I feel that this is clunky and that there are a alot of case to cover. For example, if the plane is already aligned with the yz plane or xz plane, projecting onto
-the xy plane will result in a plane with zero dimension (a line), and therefore we cannot check for height. To work around this we will have to check first if 
+the xy plane will result in a plane with zero dimension (a line), and therefore we cannot check for z value. To work around this we will have to check first if 
 the plane is aligning to which plane and then project onto the other. I feel like that this is bug prone so I drop the idea.
 
-After a lot of thinking I sense that this has something to do with dot product and the angles between vector the corner vectors and the vector to the intersection point, however, the idea is not solid / clear to me at the time yet. I drew out pictures and then I suddenly realise how to do this (although I didn't prove any of this, so there might be some case where I missed and I could be wrong). 
-
-Here's the setup,
+After a lot of thinking I came up with another way, and here's the setup,
 
 Take the intersection point minus the corner of the rectangle to get a vector, call this corner_to_inter_1. Then do the same for the opposite corner and call it
 corner_to_inter_2. Now we have two vectors that points from each corner to the intersection point.
@@ -307,7 +301,8 @@ if (con1 && con2 && con3 && con4) { // check if the point lies within the rectan
 return false;
 ```
 
-This is much better than the projection method, because it doesn't require checking all the case then projecting then do checking again.
+This is much better than the projection method, because it doesn't require checking all the case then projecting then do checking again. And we dont have to worry about anoter dimension because all points are on the same plane.
+
 Including this in the scene too we get,
 
 <p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/c%2B%2B/images/open_light_rec_128_samples.png"> </p>

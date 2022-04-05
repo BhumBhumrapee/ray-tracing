@@ -91,6 +91,10 @@ A simle sphere in 3D space, defined by origin and radius. The implementation als
 
 A 2D rectangular surface. Defined by equation of the plane and length vectors.
 
+### 3: Triangle
+
+A 2D triangular surface.
+
 ## Development
 
 For most of the part, I've followed directly the instruction from the book. At first, I've tried to implement everything in python, as it is much simpler
@@ -312,6 +316,11 @@ I used the rectangle for light sources as it looks cooler than a sphere. Now wit
 
 <p align="center"> <img src="https://github.com/BhumBhumrapee/ray-tracing/blob/master/c%2B%2B/images/open_light_rec_512_samples.png"> </p>
 <p align="center"> <em> 512 samples per pixel, open space</em> </p>
+
+#### Extending beyond rectangles
+
+After some thought, I've came up with a similar stragety to implement triangular surface. I've generalised my method to apply to n sided polygon as well.
+The setup is very similar, let's take a look at the triangle case. 
 
 ### OpemMp
 
